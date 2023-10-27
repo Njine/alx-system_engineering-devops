@@ -1,0 +1,11 @@
+#!/usr/bin/env bash
+# This script parses Apache logs, extracts IP addresses, counts their occurrences, and sorts them.
+
+# Define the log file name
+log_file="apache-access.log"
+
+# Use awk to extract IP addresses (first field) and HTTP status codes (ninth field)
+# Sort the IP addresses
+# Count the occurrences of each IP and display them with "uniq -c"
+# Sort the counts in descending order
+awk -F' ' '{ print $1 " " $9 }' "$log_file" | sort | uniq -c | sort -nr

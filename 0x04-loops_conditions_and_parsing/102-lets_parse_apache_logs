@@ -1,0 +1,4 @@
+#!/usr/bin/env bash
+# This script extracts the first and ninth fields from an Apache log file using awk.
+log_file="apache-access.log"
+awk -F' ' '{ print $1 " " $9 }' "$log_file"
