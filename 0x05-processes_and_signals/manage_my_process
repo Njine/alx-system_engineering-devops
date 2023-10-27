@@ -1,0 +1,8 @@
+#!/usr/bin/env bash
+#Bash will write a message to file
+while :
+do
+      echo "I am alive" >> /temp/my_process
+      sleep 2
+done
+      
