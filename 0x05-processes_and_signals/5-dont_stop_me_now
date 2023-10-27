@@ -1,0 +1,9 @@
+#!/usr/bin/env bash
+# Kills the process of the before task, searching the ID by the full pattern used in the console, in this case the name file
+PID=$(pgrep -f '4-to_infinity_and_beyond')
+if [ -n "$PID" ] && [ "$PID" -gt 1 ]; then
+    kill "$PID"
+    echo "Killed process with PID $PID"
+else
+    echo "No matching process found."
+fi

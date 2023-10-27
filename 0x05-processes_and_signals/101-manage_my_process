@@ -1,0 +1,40 @@
+#!/usr/bin/env bash
+# Bash script that manages a subprocess
+
+PIDFILE=/var/run/my_process.pid
+
+start() {
+    ./manage_my_process &
+    echo "$!" > "$PIDFILE"
+}
+
+stop() {
+    local pid
+    pid=$(cat "$PIDFILE" 2>/dev/null)
+    if [ -n "$pid" ]; then
+        sudo kill -15 "$pid" && rm -f "$PIDFILE"
+    else
+        echo "Process not found. Is it running?"
+    fi
+}
+
+case "$1" in 
+    start)
+       start
+       echo "manage_my_process started"
+       ;;
+    stop)
+       stop
+       echo "manage_my_process stopped"
+       ;;
+    restart)
+       stop
+       start
+       echo "manage_my_process restarted"
+       ;;
+    *)
+       echo "Usage: $0 {start|stop|restart}"
+       exit 1
+esac
+
+exit 0

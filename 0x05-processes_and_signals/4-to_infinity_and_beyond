@@ -1,0 +1,7 @@
+#!/usr/bin/env bash
+# Print to infinity and beyond indefinitely after 2 seconds
+while :
+do
+    echo "To infinity and beyond"
+    sleep 2
+done

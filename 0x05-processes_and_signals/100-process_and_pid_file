@@ -1,0 +1,16 @@
+#!/usr/bin/env bash
+# This Bash script demonstrates signal handling and PID management.
+echo $$ > /var/run/myscript.pid
+trap 'echo "Received SIGTERM: I dislike the kill command"; cleanup_and_exit' SIGTERM
+trap 'echo "Received SIGINT: Y U no love me?!"' SIGINT
+trap 'cleanup_and_exit' SIGQUIT
+cleanup_and_exit() {
+    echo "Cleaning up and exiting"
+    rm -rf /var/run/myscript.pid
+    exit
+}
+while :
+do
+    echo "To infinity and beyond"
+    sleep 2
+done
