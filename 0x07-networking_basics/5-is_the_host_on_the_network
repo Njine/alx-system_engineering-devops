@@ -1,0 +1,11 @@
+#!/usr/bin/env bash
+# Bash script pings an IP address thats passed as an argument
+# Ping IP 5 times and display the round-trip time
+
+if [ "$#" -lt 1 ]; then
+    echo "Usage: $0 {IP_ADDRESS}"
+else
+    IP_ADDRESS="$1"
+    echo "Pinging $IP_ADDRESS 5 times..."
+    ping "$IP_ADDRESS" -c 5
+fi
