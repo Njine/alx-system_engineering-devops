@@ -1,2 +1,14 @@
 #!/usr/bin/env ruby
-puts ARGV[0].scan(/hbt{2,5}n/).join
+
+input_string = ARGV[0]
+
+# Use the Oniguruma regular expression to match "School"
+regex = /School/
+
+# Check if the input string matches the regular expression
+if input_string.match(regex)
+  puts "School"
+else
+  puts ""
+end
+
