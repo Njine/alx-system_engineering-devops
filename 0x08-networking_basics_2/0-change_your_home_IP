@@ -1,11 +1,12 @@
 #!/usr/bin/env bash
-# Add IP to /etc/hosts
-hosts_file="/etc/hosts"
+# Comment
+original_hosts_file="/etc/hosts"
 new_hosts_file="~/hosts.new"
-new_localhost_ip="127.0.0.2"
-new_facebook_ip="8.8.8.8"
+localhost_ip_old="127.0.0.1"
+localhost_ip_new="127.0.0.2"
+facebook_ip="8.8.8.8"
 
-cp "$hosts_file" "$new_hosts_file"
-sed -i "s/127.0.0.1/$new_localhost_ip/" "$new_hosts_file"
-echo "$new_facebook_ip facebook.com" >> "$new_hosts_file"
-sudo cp -f "$new_hosts_file" "$hosts_file"
+cp "$original_hosts_file" "$new_hosts_file"
+sed -i "s/$localhost_ip_old/$localhost_ip_new/" "$new_hosts_file"
+echo "$facebook_ip facebook.com" >> "$new_hosts_file"
+cp -f "$new_hosts_file" "$original_hosts_file"
