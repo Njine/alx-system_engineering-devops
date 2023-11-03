@@ -1,22 +1,11 @@
 #!/usr/bin/env bash
+# Add IP to /etc/hosts
+hosts_file="/etc/hosts"
+new_hosts_file="~/hosts.new"
+new_localhost_ip="127.0.0.2"
+new_facebook_ip="8.8.8.8"
 
-# Check if the script is run with superuser privileges
-if [[ $EUID -ne 0 ]]; then
-  echo "This script must be run as root."
-  exit 1
-fi
-
-# Define the new IP addresses
-LOCALHOST_IP="127.0.0.2"
-FACEBOOK_IP="8.8.8.8"
-
-# Update the hosts file to set localhost and facebook.com to the new IPs
-sed -i "s/^127.0.0.1\s*localhost/127.0.0.1 localhost\n$LOCALHOST_IP localhost/" /etc/hosts
-echo "$FACEBOOK_IP facebook.com" >> /etc/hosts
-
-# Output a message indicating success
-echo "IP addresses configured as required:"
-cat /etc/hosts
-
-# Restart networking (optional, may be required for changes to take effect)
-service networking restart
+cp "$hosts_file" "$new_hosts_file"
+sed -i "s/127.0.0.1/$new_localhost_ip/" "$new_hosts_file"
+echo "$new_facebook_ip facebook.com" >> "$new_hosts_file"
+sudo cp -f "$new_hosts_file" "$hosts_file"
