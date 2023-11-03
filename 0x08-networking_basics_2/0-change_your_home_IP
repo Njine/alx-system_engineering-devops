@@ -1,21 +1,9 @@
 #!/usr/bin/env bash
 # Configure IP address resolution in /etc/hosts
-
-# Define the target IP and host mappings
 LOCALHOST_IP="127.0.0.2"
 FACEBOOK_IP="8.8.8.8"
-
-# Backup the original hosts file
 sudo cp /etc/hosts /etc/hosts.bak
-
-# Create a new hosts file with updated mappings
 sudo sed -i "s/^127.0.0.1/$LOCALHOST_IP/" /etc/hosts
 echo "$FACEBOOK_IP	facebook.com" | sudo tee -a /etc/hosts
-
-# Display a message for reference
 echo "Updated /etc/hosts file:"
 cat /etc/hosts
-
-# Ensure localhost resolution is reverted to 127.0.0.1
-# IMPORTANT: If this script is run on a permanent machine, be sure to run this to avoid issues.
-# sudo sed -i "s/^$LOCALHOST_IP/127.0.0.1/" /etc/hosts
