@@ -1,2 +1,7 @@
 #!/usr/bin/env ruby
-puts ARGV[0].scan(/[[:upper:]]/)*""
+
+if ARGV[0]
+    result = ARGV[0].scan(/[[:upper:]]/)
+    puts result ? result.join("") : ""
+end
+  
