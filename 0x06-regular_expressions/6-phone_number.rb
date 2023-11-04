@@ -1,2 +1,6 @@
 #!/usr/bin/env ruby
-puts (match = ARGV[0][/^\d{10}$/]) ? match : ""
+
+if ARGV[0]
+    match = ARGV[0][/^\d{10}$/]
+    puts match ? match : ""
+end 
