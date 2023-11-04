@@ -1,2 +1,7 @@
 #!/usr/bin/env ruby
-puts ARGV[0].scan(/hbt*n/)*""
+
+if ARGV[0]
+    result = ARGV[0].scan(/hbt*n/)
+    puts result ? result.join("") : ""
+end
+  
