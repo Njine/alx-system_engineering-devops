@@ -7,4 +7,3 @@ if ARGV.length == 1
       puts "#{sender},#{number},#{flags}"
     end
 end
-  
