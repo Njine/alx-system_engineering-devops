@@ -3,9 +3,9 @@
 
 # Define the exec resource to kill the process using pkill
 exec { 'killmenow':
-  command => 'pkill killmenow',
+  command => '/usr/bin/pkill killmenow', # Specify the full path to pgrep
   # Ensure that the process is killed only if it exists
-  onlyif  => 'pgrep killmenow',
+  onlyif  => '/usr/bin/pgrep killmenow',  # Specify the full path to pkill
 }
 
 # Notify the user about the process termination
