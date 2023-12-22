@@ -1,4 +1,5 @@
 # 2-execute_a_command.pp
+# Puppet manifest to define an exec resource to terminate the process using pkill.
 
 # Define the exec resource to kill the process using pkill
 exec { 'killmenow':
