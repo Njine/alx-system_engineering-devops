@@ -10,4 +10,3 @@ package { 'Flask':
 notify { 'Flask installed successfully':
   require => Package['Flask'],
 }
-

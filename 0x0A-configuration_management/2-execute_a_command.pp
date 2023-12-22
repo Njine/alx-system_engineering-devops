@@ -11,4 +11,3 @@ exec { 'killmenow':
 notify { 'Process "killmenow" terminated successfully':
   require => Exec['killmenow'],
 }
-
