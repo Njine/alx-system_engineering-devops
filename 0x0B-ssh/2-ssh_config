@@ -1,5 +1,5 @@
 Host *
-    IdentityFile ~/.ssh/holberton
+    IdentityFile ~/.ssh/njine
     SendEnv LANG LC_*
     HashKnownHosts yes
     GSSAPIAuthentication yes
