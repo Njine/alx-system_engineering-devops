@@ -1,5 +1,5 @@
 Host *
-    IdentityFile ~/.ssh/njine
+    IdentityFile ~/.ssh/school
     SendEnv LANG LC_*
     HashKnownHosts yes
     GSSAPIAuthentication yes
