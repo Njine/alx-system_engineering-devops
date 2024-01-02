@@ -17,7 +17,7 @@ sudo service nginx restart
 if curl - s localhost | grep - q "Hello World!"
 
 then
-echo "Nginx installed and configured. Server is listening on port 80."
+echo "Nginx installed and configured successfully. Server is listening on port 80."
 else
-echo "Something wrong. Check Nginx logs in /var/log/ for more information."
+echo "Something went wrong. Check Nginx logs in /var/log/ for more information."
 fi
