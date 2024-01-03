@@ -1,0 +1,16 @@
+#!/usr/bin/env bash
+# Bash script to configure Nginx for a 301 permanent redirect
+
+# Update package list and install Nginx
+sudo apt-get -y update
+sudo apt-get -y install nginx
+
+# Change index.html to read "Holberton School"
+echo "Hello World!" | sudo tee /var/www/html/index.nginx-debian.html
+
+# Add configuration for a 301 permanent redirect
+lines="location /redirect_me {\n    rewrite ^/(.*)$ https://www.youtube.com/watch?v=QH2-TGUlwu4 permanent;\n}"
+sudo sed -i "30i $lines" /etc/nginx/sites-available/default
+
+# Restart Nginx (without using systemctl)
+sudo service nginx restart
