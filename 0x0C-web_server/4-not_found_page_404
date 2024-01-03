@@ -1,30 +1,19 @@
 #!/usr/bin/env bash
-# Bash script to install Nginx with a custom 404 Error page
+# Bash script to install Nginx, modify content, and update configuration
 
-# Update package list and install Nginx
+# Update package information and install Nginx
 sudo apt-get -y update
-sudo apt-get -y install nginx
+sudo apt-get install -y nginx
 
-# Create directory and files for custom 404 page
-sudo mkdir /etc/nginx/html
-sudo tee /etc/nginx/html/index.html <<< "Holberton School"
-sudo tee /etc/nginx/html/404.html <<< "Ceci n'est pas une page"
+# Change index.html to read "Holberton School"
+echo "Holberton School" | sudo tee /usr/share/nginx/html/index.html
 
-# Configure Nginx with custom 404 page
-sudo tee /etc/nginx/sites-available/default <<< "server {
-    listen 80;
-    listen [::]:80 default_server;
-    root   /etc/nginx/html;
-    index  index.html index.htm;
-    location /redirect_me {
-        return 301 https://www.youtube.com/watch?v=QH2-TGUlwu4;
-    }
-    error_page 404 /404.html;
-    location /404 {
-        root /etc/nginx/html;
-        internal;
-    }
-}"
+# Define lines for custom location and error page
+lines="location /redirect_me {\n\trewrite ^/(.*)$ https://www.youtube.com/watch?v=QH2-TGUlwu4 permanent;\n}"
+error_page_lines="\n\terror_page 404 /404.html;\n\tlocation = /404.html {\n\t\troot /usr/share/nginx/html;\n\t\tinternal;\n\t}"
 
-# Restart Nginx (without using systemctl)
-sudo service nginx restart
+# Add custom lines to Nginx configuration
+sudo sed -i "30i $lines$error_page_lines" /etc/nginx/sites-available/default
+
+# Start Nginx service
+sudo service nginx start
