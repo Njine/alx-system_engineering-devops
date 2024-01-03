@@ -2,7 +2,7 @@
 # Bash script to install and configure Nginx on a server
 
 # Update package list and install Nginx
-sudo apt-get - y update & & sudo apt-get install - y nginx
+sudo apt-get - y update && sudo apt-get install - y nginx
 
 # Change index.html to read "Hello World!"
 echo "Hello World!" | sudo tee / var/www/html/index.nginx-debian.html
