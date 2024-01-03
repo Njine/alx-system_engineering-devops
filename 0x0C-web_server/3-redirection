@@ -1,16 +1,18 @@
 #!/usr/bin/env bash
-# Bash script to configure Nginx for a 301 permanent redirect
+# Bash script for permanent redirection with Nginx
 
-# Update package list and install Nginx
+# Update package information and install Nginx
 sudo apt-get -y update
 sudo apt-get -y install nginx
 
-# Change index.html to read "Holberton School"
+# Change index.html to read "Hello World!"
 echo "Hello World!" | sudo tee /var/www/html/index.nginx-debian.html
 
-# Add configuration for a 301 permanent redirect
-lines="location /redirect_me {\n    rewrite ^/(.*)$ https://www.youtube.com/watch?v=QH2-TGUlwu4 permanent;\n}"
-sudo sed -i "30i $lines" /etc/nginx/sites-available/default
+# Define the redirection rule
+redirect_rule="location /redirect_me {\n\trewrite ^/(.*)$ https://www.youtube.com/watch?v=QH2-TGUlwu4 permanent;\n}"
 
-# Restart Nginx (without using systemctl)
+# Add the redirection rule to Nginx configuration
+sudo sed -i "30i $redirect_rule" /etc/nginx/sites-available/default
+
+# Restart Nginx service for changes to take effect
 sudo service nginx restart
