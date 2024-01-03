@@ -1,28 +1,6 @@
-exec { 'install_nginx':
-  command => 'sudo apt-get -y update && sudo apt-get -y install nginx',
-  path    => '/usr/bin:/usr/sbin:/bin',
-}
+# Installs an Nginx server
 
-file { '/var/www/html/index.nginx-debian.html':
-  ensure  => 'file',
-  content => 'Hello World!',
-}
-
-file { '/etc/nginx/sites-available/default':
-  ensure  => 'file',
-  content => "server {
-    listen 80;
-    listen [::]:80 default_server;
-    root   /var/www/html;
-    index  index.nginx-debian.html index.html index.htm;
-    location /redirect_me {
-        rewrite ^/redirect_me https://github.com/luischaparroc permanent;
-    }
-}",
-}
-
-service { 'nginx':
-  ensure    => 'running',
-  enable    => true,
-  subscribe => File['/var/www/html/index.nginx-debian.html', '/etc/nginx/sites-available/default'],
+exec { 'install':
+  provider => shell,
+  command  => 'sudo apt-get -y update && sudo apt-get -y install nginx && echo "Hello World!" | sudo tee /var/www/html/index.nginx-debian.html && sudo sed -i "s/server_name _;/server_name _;\n\trewrite ^\/redirect_me https:\/\/github.com\/luischaparroc permanent;/" /etc/nginx/sites-available/default && sudo service nginx start',
 }
