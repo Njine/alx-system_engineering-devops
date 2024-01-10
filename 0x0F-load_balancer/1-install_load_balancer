@@ -20,8 +20,8 @@ load_balancer="\nfrontend http\n
 
 backend load_b\n
 \tbalance roundrobin
-\tserver web-01 35.185.103.0:80 check
-\tserver web-02 35.237.21.105:80 check
+\tserver web-01 100.25.130.218:80 check
+\tserver web-02 34.239.253.248:80 check
 "
 
 # Update the path for HAProxy configuration
