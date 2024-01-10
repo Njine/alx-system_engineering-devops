@@ -1,23 +1,31 @@
-$hostname = 'your_hostname' # Replace with the actual hostname
+# Installs Nginx server with custom HTTP header
+
+exec { 'update':
+  command => 'sudo apt-get -y update',
+}
 
 package { 'nginx':
-  ensure => installed,
+  ensure  => installed,
+  require => Exec['update'],
 }
 
 file { '/etc/nginx/nginx.conf':
   ensure  => present,
-  content => template('your_module/nginx.conf.erb'), # Use a template for configuration
-  notify  => Service['nginx'],
+  content => template('your_module/nginx.conf.erb'), # Make sure to replace with the correct template path
+  notify  => Exec['add_header'],
 }
 
-service { 'nginx':
-  ensure  => running,
-  enable  => true,
+exec { 'add_header':
+  command => 'sudo sed -i "s/include \/etc\/nginx\/sites-enabled\/\*;/include \/etc\/nginx\/sites-enabled\/\*;\n\tadd_header X-Served-By \"$HOST\";/" /etc/nginx/nginx.conf',
+  refreshonly => true,
+  subscribe   => File['/etc/nginx/nginx.conf'],
+  require     => Package['nginx'],
+  notify      => Exec['restart_nginx'],
 }
 
-
-# Add the following to your Puppet module in 'templates/nginx.conf.erb':
-
-# include "/etc/nginx/sites-enabled/*;";
-# add_header X-Served-By "<%= @_hostname %>";
+exec { 'restart_nginx':
+  command => 'sudo service nginx restart',
+  refreshonly => true,
+  subscribe   => Exec['add_header'],
+}
 
