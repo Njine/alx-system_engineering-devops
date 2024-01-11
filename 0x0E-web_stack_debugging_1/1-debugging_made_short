@@ -1,0 +1,12 @@
+#!/usr/bin/env bash
+# Script to fix and optimize Nginx configuration
+
+# Modify Nginx configuration to use port 80 instead of 8080
+sed -i "s/8080/80/" /etc/nginx/sites-enabled/default
+
+# Start the Nginx service
+service nginx start
+
+# Terminate an old Nginx process
+pkill -o nginx
+

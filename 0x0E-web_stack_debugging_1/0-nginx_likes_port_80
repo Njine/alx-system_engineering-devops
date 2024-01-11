@@ -1,0 +1,12 @@
+#!/usr/bin/env bash
+# Script to debug a container listening on port 80
+
+# Stop the nginx service
+sudo service nginx stop
+
+# Modify nginx configuration file
+sudo sed -i "s/sites-enabled/sites-available/" /etc/nginx/nginx.conf
+
+# Start the nginx service
+sudo service nginx start
+
