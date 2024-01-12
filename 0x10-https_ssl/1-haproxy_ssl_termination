@@ -43,7 +43,7 @@ frontend http
         default_backend web-backend
 
 frontend www-https
-        bind *:443 ssl crt /etc/haproxy/ssl/www.luisch.tech.pem
+        bind *:443 ssl crt /etc/haproxy/ssl/www.bnjine.tech.pem
         http-request set-header X-Forwarded-Proto https
         default_backend web-backend
 
@@ -53,5 +53,5 @@ backend letsencrypt-backend
 backend web-backend
         balance roundrobin
         redirect scheme https if !{ ssl_fc }
-        server 938-web-01 35.231.33.237:80 check
-        server 938-web-02 34.74.155.163:80 check
+        server 938-web-01 100.25.130.218:80 check
+        server 938-web-02 34.239.253.248:80 check
