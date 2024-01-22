@@ -1,0 +1,21 @@
+#!/bin/bash
+# Configure ufw on web-01 to permit specific incoming TCP ports while blocking all other incoming traffic
+
+# Update and install ufw
+sudo apt-get update
+sudo apt-get install -y ufw
+
+# Allow incoming traffic on ports 22, 80, and 443
+sudo ufw allow 22/tcp
+sudo ufw allow 80/tcp
+sudo ufw allow 443/tcp
+
+# Set the default policy to deny incoming traffic
+sudo ufw default deny incoming
+
+# Enable ufw
+sudo ufw enable
+
+# Check and display ufw status
+sudo ufw status
+
