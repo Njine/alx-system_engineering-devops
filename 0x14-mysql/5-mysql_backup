@@ -23,4 +23,3 @@ rm "${DUMP_FILE}"
 
 # Display the created files
 ls -l "${OUTPUT_FILE}"
-
