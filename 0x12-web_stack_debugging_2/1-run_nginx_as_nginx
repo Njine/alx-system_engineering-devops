@@ -1,20 +1,9 @@
 #!/usr/bin/env bash
-
 # Modify the nginx port to 8080, restart its service using the nginx user
-
-# Update the default nginx site configuration
 sed -i "s/80 default/8080 default/" /etc/nginx/sites-enabled/default
-
-# Update Apache ports configuration
 sed -i "s/80/8080/" /etc/apache2/ports.conf
-
-# Stop and restart Apache service
 sudo pkill apache2
 sudo service apache2 restart
 sudo service apache2 stop
-
-# Grant read permissions to nginx.conf
 sudo chmod +r /etc/nginx/nginx.conf
-
-# Restart the nginx service with the nginx user
 sudo -u nginx service nginx restart
