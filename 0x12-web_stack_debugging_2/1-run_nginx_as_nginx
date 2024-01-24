@@ -18,3 +18,4 @@ sudo chmod +r /etc/nginx/nginx.conf
 
 # Restart nginx service with the nginx user
 sudo -u nginx service nginx restart
+

@@ -1,3 +1,4 @@
 #!/usr/bin/env bash
 # run command as a root
 sudo -u "$1" 'whoami'
+
