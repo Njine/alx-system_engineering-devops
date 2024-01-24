@@ -1,0 +1,15 @@
+#!/usr/bin/env bash
+
+# Script to compress a MySQL database dump
+MYSQL_PASSWORD="$1"
+OUTPUT_FILE="$(date '+%d-%m-%Y').tar.gz"
+
+# Create a SQL dump of all databases
+mysqldump --all-databases -u root -p"${MYSQL_PASSWORD}" > backup.sql
+
+# Compress the SQL dump using tar
+tar -czvf "${OUTPUT_FILE}" backup.sql
+
+# Optional: Remove the uncompressed SQL dump
+rm backup.sql
+
