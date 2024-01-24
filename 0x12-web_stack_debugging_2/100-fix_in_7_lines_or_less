@@ -1,0 +1,18 @@
+#!/usr/bin/env bash
+
+# Script to run nginx as nginx with root privileges
+
+# Grant read and write permissions to nginx.conf
+chmod 600 /etc/nginx/nginx.conf
+
+# Change ownership of nginx.conf to nginx user and group
+chown nginx:nginx /etc/nginx/nginx.conf
+
+# Modify nginx default site configuration to use port 8080
+sed -i "s/80/8080/g" /etc/nginx/sites-available/default
+
+# Kill Apache processes forcefully
+pkill -9 apache
+
+# Restart nginx service as the nginx user
+su -s /bin/bash -c "service nginx restart" nginx
