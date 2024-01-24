@@ -1,25 +1,4 @@
 #!/usr/bin/env bash
-
 # Script to compress a MySQL database dump
-
-# Check if a password is provided
-if [ -z "$1" ]; then
-    echo "Usage: $0 <mysql_password>"
-    exit 1
-fi
-
-MYSQL_PASSWORD="$1"
-OUTPUT_FILE="$(date '+%d-%m-%Y').tar.gz"
-DUMP_FILE="backup.sql"
-
-# Create a SQL dump of all databases
-mysqldump --all-databases -u root -p"${MYSQL_PASSWORD}" > "${DUMP_FILE}"
-
-# Compress the SQL dump using tar
-tar -czvf "${OUTPUT_FILE}" "${DUMP_FILE}"
-
-# Clean up: Remove the uncompressed SQL dump
-rm "${DUMP_FILE}"
-
-# Display the created files
-ls -l "${OUTPUT_FILE}"
+mysqldump --all-databases -u root -p"$1" > backup.sql
+tar -czvf "$(date '+%d-%m-%Y').tar.gz" backup.sql
