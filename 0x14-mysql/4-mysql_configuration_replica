@@ -1,0 +1,25 @@
+# MySQL Database Server Configuration File
+
+# This configuration file can be used for:
+# - Global options: Copy to "/etc/mysql/my.cnf"
+# - User-specific options: Copy to "~/.my.cnf"
+
+# Long options are supported; run with "--help" for available options,
+# and use "--print-defaults" to view recognized options.
+
+# For detailed explanations, consult:
+# http://dev.mysql.com/doc/mysql/en/server-system-variables.html
+
+# * IMPORTANT: Additional settings overriding this file must end with '.cnf' to be recognized.
+
+!includedir /etc/mysql/conf.d/
+!includedir /etc/mysql/mysql.conf.d/
+
+[mysqld]
+
+# Configuration for MySQL server with server-id set to 2
+server-id = 2
+relay-log = /var/log/mysql/mysql-relay-bin.log
+log_bin = /var/log/mysql/mysql-bin.log
+binlog_do_db = tyrell_corp
+
