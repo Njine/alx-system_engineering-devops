@@ -18,7 +18,8 @@
 
 [mysqld]
 
+# Your MySQL primary configuration settings go here
 server-id = 1
+relay-log = /var/log/mysql/mysql-relay-bin.log
 log_bin = /var/log/mysql/mysql-bin.log
 binlog_do_db = tyrell_corp
-
