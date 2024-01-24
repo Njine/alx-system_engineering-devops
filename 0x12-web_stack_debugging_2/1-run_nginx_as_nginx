@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-# Modify the nginx port to 8080, restart its service using the nginx user
+#The script updates the nginx port to 8080 and restarts its service using the nginx user
 sed -i "s/80 default/8080 default/" /etc/nginx/sites-enabled/default
 sed -i "s/80/8080/" /etc/apache2/ports.conf
 sudo pkill apache2
