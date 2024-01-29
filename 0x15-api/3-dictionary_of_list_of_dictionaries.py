@@ -1,41 +1,30 @@
 #!/usr/bin/python3
-"""
-Retrieve employee information using JSONPlaceholder API and save to JSON
-"""
-
+""" Script that uses JSONPlaceholder API to get information about employee """
 import json
 import requests
 import sys
 
 
-def main():
-    """Main function to retrieve and save employee information"""
-    url = 'https://jsonplaceholder.typicode.com/'
-    users_endpoint = '{}users'.format(url)
-    response = requests.get(users_endpoint)
-    users_data = response.json()
-    tasks_dict = {}
-
-    for user_data in users_data:
-        name = user_data.get('username')
-        userid = user_data.get('id')
-        todos_endpoint = '{}todos?userId={}'.format(url, userid)
-        tasks_response = requests.get(todos_endpoint)
-        tasks_data = tasks_response.json()
-        user_tasks = []
-
-        for task_data in tasks_data:
-            task_dict = {"username": name,
-                         "task": task_data.get('title'),
-                         "completed": task_data.get('completed')}
-            user_tasks.append(task_dict)
-
-        tasks_dict[str(userid)] = user_tasks
-
-    filename = 'todo_all_employees.json'
-    with open(filename, mode='w') as file:
-        json.dump(tasks_dict, file)
-
-
 if __name__ == "__main__":
-    main()
+    url = 'https://jsonplaceholder.typicode.com/'
+    user = '{}users'.format(url)
+    res = requests.get(user)
+    json_o = res.json()
+    d_task = {}
+    for user in json_o:
+        name = user.get('username')
+        userid = user.get('id')
+        todos = '{}todos?userId={}'.format(url, userid)
+        res = requests.get(todos)
+        tasks = res.json()
+        l_task = []
+        for task in tasks:
+            dict_task = {"username": name,
+                         "task": task.get('title'),
+                         "completed": task.get('completed')}
+            l_task.append(dict_task)
+
+        d_task[str(userid)] = l_task
+    filename = 'todo_all_employees.json'
+    with open(filename, mode='w') as f:
+        json.dump(d_task, f)
