@@ -1,11 +1,15 @@
 #!/usr/bin/python3
-"""Retrieves employee information using JSONPlaceholder API and writes to JSON"""
+"""
+Retrieves employee information using JSONPlaceholder API and writes to JSON
+"""
+
 import json
 import requests
 import sys
 
 
-if __name__ == "__main__":
+def main():
+    """Main function to retrieve and save employee information"""
     url = 'https://jsonplaceholder.typicode.com/'
 
     userid = sys.argv[1]
@@ -29,3 +33,7 @@ if __name__ == "__main__":
     filename = '{}.json'.format(userid)
     with open(filename, mode='w') as file:
         json.dump(tasks_dict, file)
+
+
+if __name__ == "__main__":
+    main()
