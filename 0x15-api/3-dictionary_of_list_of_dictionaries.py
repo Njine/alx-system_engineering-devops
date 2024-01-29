@@ -1,11 +1,15 @@
 #!/usr/bin/python3
-"""Retrieve employee information using JSONPlaceholder API and save to JSON"""
+"""
+Retrieve employee information using JSONPlaceholder API and save to JSON
+"""
 
 import json
 import requests
 import sys
 
-if __name__ == "__main__":
+
+def main():
+    """Main function to retrieve and save employee information"""
     url = 'https://jsonplaceholder.typicode.com/'
     users_endpoint = '{}users'.format(url)
     response = requests.get(users_endpoint)
@@ -31,3 +35,7 @@ if __name__ == "__main__":
     filename = 'todo_all_employees.json'
     with open(filename, mode='w') as file:
         json.dump(tasks_dict, file)
+
+
+if __name__ == "__main__":
+    main()
