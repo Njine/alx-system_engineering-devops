@@ -1,25 +1,52 @@
 #!/usr/bin/python3
-""" Script that uses JSONPlaceholder API to get information about employee """
+"""
+Python script that, using a REST API, for a given employee ID,
+returns information about his/her TODO list progress.
+"""
+
 import requests
 import sys
 
-
 if __name__ == "__main__":
-    url = 'https://jsonplaceholder.typicode.com/'
+    if len(sys.argv) != 2:
+        print("Usage: python script.py <employee_id>")
+        sys.exit(1)
 
-    user = '{}users/{}'.format(url, sys.argv[1])
-    res = requests.get(user)
-    json_o = res.json()
-    print("Employee {} is done with tasks".format(json_o.get('name')), end="")
+    employee_id = sys.argv[1]
 
-    todos = '{}todos?userId={}'.format(url, sys.argv[1])
-    res = requests.get(todos)
-    tasks = res.json()
-    l_task = []
-    for task in tasks:
-        if task.get('completed') is True:
-            l_task.append(task)
+    try:
+        employee_id = int(employee_id)
+    except ValueError:
+        print("Error: Employee ID must be an integer")
+        sys.exit(1)
 
-    print("({}/{}):".format(len(l_task), len(tasks)))
-    for task in l_task:
-        print("\t {}".format(task.get("title")))
+    todos_response = requests.get('https://jsonplaceholder.typicode.com/todos/')
+    todos_data = todos_response.json()
+
+    users_response = requests.get('https://jsonplaceholder.typicode.com/users')
+    users_data = users_response.json()
+
+    employee_name = None
+    completed_tasks = 0
+    total_tasks = 0
+    task_titles = []
+
+    for user in users_data:
+        if user.get('id') == employee_id:
+            employee_name = user.get('name')
+            break
+
+    if employee_name is None:
+        print("Error: Employee ID not found")
+        sys.exit(1)
+
+    for todo in todos_data:
+        if todo.get('userId') == employee_id:
+            total_tasks += 1
+            if todo.get('completed'):
+                completed_tasks += 1
+                task_titles.append(todo.get('title'))
+
+    print("Employee {} is done with tasks({}/{}):".format(employee_name, completed_tasks, total_tasks))
+    for title in task_titles:
+        print("\t{}".format(title))
