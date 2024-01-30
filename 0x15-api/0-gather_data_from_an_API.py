@@ -5,7 +5,7 @@ from sys import argv
 
 
 def fetch_data(id):
-    '''Fetches employee data using ID. Format: [name, ID, [completed_tasks], [all_tasks]].'''
+    '''Fetches employee data: [name, ID, [completed_tasks], [all_tasks]].'''
     data = ['', 0, [], []]
     user = requests.get('https://jsonplaceholder.typicode.com/users/{}'.format(
         id)).json()

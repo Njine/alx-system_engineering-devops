@@ -39,7 +39,9 @@ if __name__ == "__main__":
     # Write data to CSV file
     filename = '{}.csv'.format(user_id)
     with open(filename, mode='w', newline='') as csv_file:
-        csv_writer = csv.writer(csv_file, delimiter=',', quotechar='"', quoting=csv.QUOTE_ALL)
+        csv_writer = csv.writer(
+            csv_file, delimiter=',', quotechar='"', quoting=csv.QUOTE_ALL
+        )
         csv_writer.writerow(["USER_ID", "USERNAME", "TASK_COMPLETED_STATUS", "TASK_TITLE"])
         for task_row in csv_data:
             csv_writer.writerow(task_row)
