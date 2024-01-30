@@ -3,17 +3,14 @@
 import requests
 from sys import argv
 
-
 def fetch_data(employee_id):
     '''Fetches employee data using ID in the format: [name, ID, [completed_tasks], [all_tasks]].'''
     data = ['', 0, [], []]
-    user = requests.get('https://jsonplaceholder.typicode.com/users/{}'.format(
-        employee_id
-        )).json()
+    user = requests.get(f'https://jsonplaceholder.typicode.com/users/{employee_id}').json()
     todos = requests.get('https://jsonplaceholder.typicode.com/todos').json()
 
     data[0] = user.get('name')
-    data[1] = user.get('userId')
+    data[1] = user.get('id')
     for todo in todos:
         if todo.get('userId') == user.get('id'):
             data[3].append(todo)
@@ -21,11 +18,12 @@ def fetch_data(employee_id):
                 data[2].append(todo)
     return data
 
-
 if __name__ == '__main__':
-    employee_id = argv[1]
-    data = fetch_data(employee_id)
-    print('Employee {} is done with tasks({}/{}):'.format(
-        data[0], len(data[2]), len(data[3])))
-    for todo in data[2]:
-        print('\t{}'.format(todo.get('title')))
+    if len(argv) != 2:
+        print("Usage: python3 0-gather_data_from_an_API.py <employee_id>")
+    else:
+        employee_id = argv[1]
+        data = fetch_data(employee_id)
+        print(f'Employee {data[0]} is done with tasks({len(data[2])}/{len(data[3])}):')
+        for todo in data[2]:
+            print(f'\t{todo.get("title")}')
