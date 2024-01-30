@@ -1,5 +1,7 @@
 #!/usr/bin/python3
+
 '''Fetches employee data from API using employee ID.'''
+
 import requests
 import sys
 
@@ -19,6 +21,7 @@ def fetch_data(employee_id):
     return data
 
 def main():
+    '''Main function.'''
     if len(sys.argv) != 2:
         print("Usage: python3 0-gather_data_from_an_API.py <employee_id>")
         sys.exit(1)
