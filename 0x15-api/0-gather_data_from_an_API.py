@@ -1,52 +1,31 @@
 #!/usr/bin/python3
-"""
-Python script that, using a REST API, for a given employee ID,
-returns information about his/her TODO list progress.
-"""
-
+'''Fetches employee data from API using employee ID.'''
 import requests
-import sys
+from sys import argv
 
-if __name__ == "__main__":
-    if len(sys.argv) != 2:
-        print("Usage: python script.py <employee_id>")
-        sys.exit(1)
 
-    employee_id = sys.argv[1]
+def fetch_data(employee_id):
+    '''Fetches employee data using ID in the format: [name, ID, [completed_tasks], [all_tasks]].'''
+    data = ['', 0, [], []]
+    user = requests.get('https://jsonplaceholder.typicode.com/users/{}'.format(
+        employee_id
+        )).json()
+    todos = requests.get('https://jsonplaceholder.typicode.com/todos').json()
 
-    try:
-        employee_id = int(employee_id)
-    except ValueError:
-        print("Error: Employee ID must be an integer")
-        sys.exit(1)
-
-    todos_response = requests.get('https://jsonplaceholder.typicode.com/todos/')
-    todos_data = todos_response.json()
-
-    users_response = requests.get('https://jsonplaceholder.typicode.com/users')
-    users_data = users_response.json()
-
-    employee_name = None
-    completed_tasks = 0
-    total_tasks = 0
-    task_titles = []
-
-    for user in users_data:
-        if user.get('id') == employee_id:
-            employee_name = user.get('name')
-            break
-
-    if employee_name is None:
-        print("Error: Employee ID not found")
-        sys.exit(1)
-
-    for todo in todos_data:
-        if todo.get('userId') == employee_id:
-            total_tasks += 1
+    data[0] = user.get('name')
+    data[1] = user.get('userId')
+    for todo in todos:
+        if todo.get('userId') == user.get('id'):
+            data[3].append(todo)
             if todo.get('completed'):
-                completed_tasks += 1
-                task_titles.append(todo.get('title'))
+                data[2].append(todo)
+    return data
 
-    print("Employee {} is done with tasks({}/{}):".format(employee_name, completed_tasks, total_tasks))
-    for title in task_titles:
-        print("\t{}".format(title))
+
+if __name__ == '__main__':
+    employee_id = argv[1]
+    data = fetch_data(employee_id)
+    print('Employee {} is done with tasks({}/{}):'.format(
+        data[0], len(data[2]), len(data[3])))
+    for todo in data[2]:
+        print('\t{}'.format(todo.get('title')))
