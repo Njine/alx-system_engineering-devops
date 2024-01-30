@@ -1,7 +1,7 @@
 #!/usr/bin/python3
 '''Fetches employee data from API using employee ID.'''
 import requests
-from sys import argv
+import sys
 
 def fetch_data(employee_id):
     '''Fetches employee data using ID in the format: [name, ID, [completed_tasks], [all_tasks]].'''
@@ -18,12 +18,17 @@ def fetch_data(employee_id):
                 data[2].append(todo)
     return data
 
-if __name__ == '__main__':
-    if len(argv) != 2:
+def main():
+    if len(sys.argv) != 2:
         print("Usage: python3 0-gather_data_from_an_API.py <employee_id>")
-    else:
-        employee_id = argv[1]
-        data = fetch_data(employee_id)
-        print(f'Employee {data[0]} is done with tasks({len(data[2])}/{len(data[3])}):')
-        for todo in data[2]:
-            print(f'\t{todo.get("title")}')
+        sys.exit(1)
+
+    employee_id = int(sys.argv[1])
+    data = fetch_data(employee_id)
+    print(f'Employee {data[0]} is done with tasks({len(data[2])}/{len(data[3])}):')
+    for todo in data[2]:
+        print(f'\t{todo.get("title")}')
+
+
+if __name__ == '__main__':
+    main()
