@@ -22,23 +22,25 @@ def recurse(subreddit, hot_list=[], after=None):
     headers = {'User-Agent': user_agent}
     params = {'after': after}
     url = "https://www.reddit.com/r/{}/hot.json".format(subreddit)
-    
-    # Send a GET request to the Reddit API
-    response = requests.get(url, headers=headers, params=params, allow_redirects=False)
-    
-    # If the request fails, return None
-    if response.status_code != 200:
-        return None
-    
+
+
+# Send a GET request to the Reddit API
+response = requests.get(url, headers=headers, params=params,
+                        allow_redirects=False)
+
+# If the request fails, return None
+if response.status_code != 200:
+    return None
+
     # Extract data from the response
     data = response.json()['data']
     hot_posts = data['children']
     add_title(hot_list, hot_posts)
     after = data['after']
-    
+
     # If no more posts to fetch, return the hot_list
     if not after:
         return hot_list
-    
+
     # Recursively call the function to fetch more posts
     return recurse(subreddit, hot_list=hot_list, after=after)
