@@ -8,7 +8,7 @@ import requests
 def top_ten(subreddit):
     """
     Return the top ten titles for a given subreddit.
-    Return None if an invalid subreddit is given.
+    Print None if an invalid subreddit is given.
     """
     # Set up headers with a user agent to avoid getting blocked
     headers = requests.utils.default_headers()
@@ -26,3 +26,11 @@ def top_ten(subreddit):
     # Print the titles of the top ten posts
     for post in top_ten:
         print(post.get('data').get('title'))
+
+# Check if the code meets the requirements
+if __name__ == '__main__':
+    import sys
+    if len(sys.argv) < 2:
+        print("Please pass an argument for the subreddit to search.")
+    else:
+        top_ten(sys.argv[1])
