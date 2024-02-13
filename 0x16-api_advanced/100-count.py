@@ -3,7 +3,7 @@
 import requests
 
 
-def count_words(subreddit, word_list, instances={}, after="", count=0):
+def count_words(subreddit, word_list, instances=None, after="", count=0):
     """Prints counts of given words found in hot posts of a given subreddit.
 
     Args:
@@ -13,6 +13,9 @@ def count_words(subreddit, word_list, instances={}, after="", count=0):
         after (str): The parameter for the next page of the API results.
         count (int): The parameter of results matched thus far.
     """
+    if instances is None:
+        instances = {}
+
     url = "https://www.reddit.com/r/{}/hot/.json".format(subreddit)
     headers = {
         "User-Agent": "linux:0x16.api.advanced:v1.0.0 (by /u/bdov_)"
@@ -29,7 +32,6 @@ def count_words(subreddit, word_list, instances={}, after="", count=0):
         if response.status_code == 404:
             raise Exception
     except Exception:
-        print("")
         return
 
     results = results.get("data")
@@ -47,9 +49,20 @@ def count_words(subreddit, word_list, instances={}, after="", count=0):
 
     if after is None:
         if not instances:
-            print("")
             return
         instances = sorted(instances.items(), key=lambda kv: (-kv[1], kv[0]))
         [print("{}: {}".format(k, v)) for k, v in instances]
     else:
         count_words(subreddit, word_list, instances, after, count)
+
+
+# Check if the code meets the requirements
+if __name__ == '__main__':
+    import sys
+    if len(sys.argv) < 3:
+        print("Usage: {} <subreddit> <list of keywords>"
+              .format(sys.argv[0]))
+        print("Ex: {} programming 'python java javascript'"
+              .format(sys.argv[0]))
+    else:
+        count_words(sys.argv[1], [x for x in sys.argv[2].split()])
