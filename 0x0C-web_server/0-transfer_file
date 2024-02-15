@@ -1,19 +1,21 @@
 #!/usr/bin/env bash
-# This script transfers a file from a client to a server using scp
+# Transfers a file from our client to a server
+#
+# Variables
+path="$(cd "$(dirname "${BASH_SOURCE[0]}")" >/dev/null 2>&1 && pwd)"
+filename=$(basename "$BASH_SOURCE")
+brown='\e[0;33m'
+reset='\033[0m'
+file="$1"
+ip="$2"
+user="ubuntu"
+key="~/.ssh/school"
 
-# Check if the correct number of parameters is provided
-if [ "$#" -ne 4 ]; then
-    echo "Usage: $0 PATH_TO_FILE IP USERNAME PATH_TO_SSH_KEY"
-    exit 1
+if [ $# -eq 2 ]; then
+    scp -i "$key" -o StrictHostKeyChecking=no "$path/$file" "$user@$ip":/home/"$user"/
+    scp -i "$key" -o StrictHostKeyChecking=no "$path/$file" "$user@$ip":/home/"$user"/
+else
+    echo -e "Usage: ${brown}$filename PATH_TO_FILE IP USERNAME PATH_TO_SSH_KEY${reset}"
+    echo -e "Usage: $filename PATH_TO_FILE IP USERNAME PATH_TO_SSH_KEY"
 fi
 
-# Assign parameters to variables
-FILE_PATH="$1"
-SERVER_IP="$2"
-USERNAME="$3"
-SSH_KEY_PATH="$4"
-
-# Transfer the file to the user's home directory on the server
-scp -o StrictHostKeyChecking=no \
-    -i "$SSH_KEY_PATH" \
-    "$FILE_PATH" "$USERNAME@$SERVER_IP":~/
