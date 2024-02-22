@@ -1,20 +1,15 @@
-# Puppet manifest to fix the problem of a high number of files opened
+# Puppet manifest to update Nginx configuration and restart the service
 
-# Replace the 'nofile' limit with 50000
-augeas { 'nofile_50000':
-  context => '/files/etc/security/limits.conf',
-  changes => [
-    'set *[@*="root" and @type="hard"]/nofile "50000"',
-    'set *[@*="root" and @type="soft"]/nofile "50000"',
-  ],
+# Manage Nginx configuration file
+file { '/etc/default/nginx':
+  ensure  => file,
+  content => template('module_name/nginx_config.erb'),
+  notify  => Exec['nginx_restart'], # Trigger Nginx restart when the file changes
 }
 
-# Replace the 'nofile' limit with 40000
-augeas { 'nofile_40000':
-  context => '/files/etc/security/limits.conf',
-  changes => [
-    'set *[@*="root" and @type="hard"]/nofile "40000"',
-    'set *[@*="root" and @type="soft"]/nofile "40000"',
-  ],
+# Restart Nginx service
+exec { 'nginx_restart':
+  command     => '/usr/sbin/service nginx restart',
+  refreshonly => true, # Ensure the command runs only when the Nginx configuration changes
 }
 
