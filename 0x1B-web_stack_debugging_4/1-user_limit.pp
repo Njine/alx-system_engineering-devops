@@ -1,26 +1,12 @@
-#High file opening fix
+# Fix problem of high amount files opened
 
-file { '/etc/security/limits.conf':
-  ensure  => present,
-  content => template('module_name/limits.conf.erb'),
+exec {'replace-1':
+  provider => shell,
+  command  => 'sudo sed -i "s/nofile 5/nofile 50000/" /etc/security/limits.conf',
+  before   => Exec['replace-2'],
 }
 
-service { 'systemd-logind':
-  ensure => running,
-  enable => true,
+exec {'replace-2':
+  provider => shell,
+  command  => 'sudo sed -i "s/nofile 4/nofile 40000/" /etc/security/limits.conf',
 }
-
-# Ensure proper ordering of changes
-exec { 'replace-1':
-  command  => 'sed -i "s/nofile 5/nofile 50000/" /etc/security/limits.conf',
-  refreshonly => true,
-  path        => ['/bin', '/usr/bin'],
-  notify      => Exec['replace-2'],
-}
-
-exec { 'replace-2':
-  command     => 'sed -i "s/nofile 4/nofile 40000/" /etc/security/limits.conf',
-  refreshonly => true,
-  path        => ['/bin', '/usr/bin'],
-}
-
