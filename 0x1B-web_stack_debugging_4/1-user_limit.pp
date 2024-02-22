@@ -1,4 +1,4 @@
-# Fix problem of high amount files opened
+# file opening fix
 
 exec {'replace-1':
   provider => shell,
@@ -6,7 +6,9 @@ exec {'replace-1':
   before   => Exec['replace-2'],
 }
 
+
 exec {'replace-2':
   provider => shell,
   command  => 'sudo sed -i "s/nofile 4/nofile 40000/" /etc/security/limits.conf',
 }
+
