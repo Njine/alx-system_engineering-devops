@@ -1,18 +1,20 @@
-# Puppet manifest to update Nginx configuration and restart the service
-# 
-# Description:
-# This manifest updates the configuration file '/etc/default/nginx' by replacing occurrences of "15" with "1000"
-# and then restarts the Nginx service.
-# Compatibility: Ubuntu 14.04 LTS, Puppet v3.4
+# Puppet manifest to fix the problem of a high number of files opened
 
-file { '/etc/default/nginx':
-  ensure  => file,
-  content => template('module_name/nginx_config.erb'),
-  notify  => Exec['nginx_restart'],
+# Replace the 'nofile' limit with 50000
+augeas { 'nofile_50000':
+  context => '/files/etc/security/limits.conf',
+  changes => [
+    'set *[@*="root" and @type="hard"]/nofile "50000"',
+    'set *[@*="root" and @type="soft"]/nofile "50000"',
+  ],
 }
 
-exec { 'nginx_restart':
-  command     => '/usr/sbin/service nginx restart',
-  refreshonly => true,
+# Replace the 'nofile' limit with 40000
+augeas { 'nofile_40000':
+  context => '/files/etc/security/limits.conf',
+  changes => [
+    'set *[@*="root" and @type="hard"]/nofile "40000"',
+    'set *[@*="root" and @type="soft"]/nofile "40000"',
+  ],
 }
 
