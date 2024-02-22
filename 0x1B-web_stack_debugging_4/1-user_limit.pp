@@ -1,15 +1,12 @@
-# Puppet manifest to fix the problem of a high number of files opened
+# Fix problem of high amount files opened
 
-# Replace the 'nofile' limit with 50000
-exec { 'replace_nofile_1':
-  command  => 'sed -i "s/nofile 5/nofile 50000/" /etc/security/limits.conf',
-  path     => '/bin:/usr/bin',
-  before   => Exec['replace_nofile_2'],
+exec {'replace-1':
+  provider => shell,
+  command  => 'sudo sed -i "s/nofile 5/nofile 50000/" /etc/security/limits.conf',
+  before   => Exec['replace-2'],
 }
 
-# Replace the 'nofile' limit with 40000
-exec { 'replace_nofile_2':
-  command  => 'sed -i "s/nofile 4/nofile 40000/" /etc/security/limits.conf',
-  path     => '/bin:/usr/bin',
+exec {'replace-2':
+  provider => shell,
+  command  => 'sudo sed -i "s/nofile 4/nofile 40000/" /etc/security/limits.conf',
 }
-
