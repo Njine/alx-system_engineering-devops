@@ -1,0 +1,35 @@
+# To gain a comprehensive understanding of Nginx configuration files and fully unlock Nginx's capabilities, it is recommended to explore the following URLs:
+# - http://wiki.nginx.org/Pitfalls
+# - http://wiki.nginx.org/QuickStart
+# - http://wiki.nginx.org/Configuration
+#
+# Typically, it's advisable to relocate this file to a designated location, starting with a clean slate, while retaining this file for reference purposes. Alternatively, it can be disabled in the sites-enabled directory.
+#
+# For more elaborate examples, please consult /usr/share/doc/nginx-doc/examples/.
+
+# Default server configuration
+#
+server {
+        listen 80 default_server;
+        listen [::]:80 default_server;
+        root /home/ubuntu/AirBnB_clone_v4/web_dynamic;
+
+        location / {
+                proxy_pass http://127.0.0.1:5003/2-hbnb;
+        }
+        location /airbnb-onepage/ {
+                proxy_pass http://127.0.0.1:5000;
+        }
+
+        location ~ ^/airbnb-dynamic/number_odd_or_even/(\d+)$ {
+                proxy_pass http://127.0.0.1:5001/number_odd_or_even/$1;
+        }
+
+        location /api/ {
+                proxy_pass http://127.0.0.1:5002;
+        }
+
+        location /static/ {
+        }
+}
+
