@@ -15,7 +15,7 @@ server {
         server_name localhost;
         root /var/www/html;
 
-        add_header X-Served-By 1217-web-01;
+        add_header X-Served-By 337039-web-01;
 
         location /airbnb-onepage/ {
                   include proxy_params;
